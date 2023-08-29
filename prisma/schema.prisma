@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  credentials Credential[]
+  secureNotes SecureNote[]
+  cards       Card[]
+
+  @@map("users")
+}
+
+model Credential {
+  id                Int      @id @default(autoincrement())
+  title             String
+  url               String
+  username          String
+  encryptedPassword String
+  userId            Int
+  user              User     @relation(fields: [userId], references: [id])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([title, userId])
+  @@map("credentials")
+}
+
+model SecureNote {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([title, userId])
+  @@map("notes")
+}
+
+model Card {
+  id             Int      @id @default(autoincrement())
+  title          String
+  cardNumber     String
+  printedName    String
+  securityCode   String
+  expirationDate DateTime
+  encryptedPin   String
+  isVirtual      Boolean
+  type           CardType
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([title, cardNumber, userId])
+  @@map("cards")
+}
+
+enum CardType {
+  CREDIT
+  DEBIT
+  BOTH
+}
