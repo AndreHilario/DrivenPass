@@ -26,8 +26,8 @@ export class NotesService {
   }
 
   async findOne(id: number) {
-    await this.noteErrors(id);
-    return this.notesRepository.findNoteById(id);
+    const note = await this.noteErrors(id);
+    return note;
   }
 
   async remove(id: number) {
