@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { UsersRepository } from './users.repository';
+
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private readonly usersRepository: UsersRepository) { }
+
+  async signup(createUserDto: CreateUserDto) {
+    const email = await this.usersRepository.findUserByEmail(createUserDto.email);
+
+    if (email) throw new ConflictException("E-mail already in use");
+
+    const hashPassword = bcrypt.hashSync(createUserDto.password, 10);
+    const newUser = new User(createUserDto.email, hashPassword);
+    return this.usersRepository.createUser(newUser);
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
+  async login(email: string, password: string) {
+    const user = await this.usersRepository.findUserByEmail(email);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    if (!user || !passwordMatch) throw new UnauthorizedException("User unauthorized!");
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    const session = await this.usersRepository.createSession(token, user.id);
+    return {
+      acess_token: session.token
+    };
   }
 }
