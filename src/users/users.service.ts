@@ -1,14 +1,24 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from "bcrypt";
-import * as jwt from "jsonwebtoken";
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './entities/user.entity';
+import { Users } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
+import { User } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) { }
+
+  private EXPIRES_IN = "7 days";
+  private ISSUER = "DrivenPass";
+  private AUDIENCE = "users";
+
+  constructor
+    (
+      private readonly usersRepository: UsersRepository,
+      private readonly jwtService: JwtService
+    ) { }
 
   async signup(createUserDto: CreateUserDto) {
     const email = await this.usersRepository.findUserByEmail(createUserDto.email);
@@ -16,7 +26,7 @@ export class UsersService {
     if (email) throw new ConflictException("E-mail already in use");
 
     const hashPassword = bcrypt.hashSync(createUserDto.password, 10);
-    const newUser = new User(createUserDto.email, hashPassword);
+    const newUser = new Users(createUserDto.email, hashPassword);
     return this.usersRepository.createUser(newUser);
   }
 
@@ -24,13 +34,43 @@ export class UsersService {
     const user = await this.usersRepository.findUserByEmail(email);
     const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (!user || !passwordMatch) throw new UnauthorizedException("User unauthorized!");
+    if (!user || !passwordMatch) throw new UnauthorizedException("Email or password invalid!");
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = this.createToken(user);
 
     const session = await this.usersRepository.createSession(token, user.id);
     return {
-      acess_token: session.token
+      token: session.token
     };
+  }
+
+  async getUserById(id: number) {
+    const user = await this.usersRepository.findUserById(id);
+    if (!user) throw new NotFoundException("User not found!");
+
+    return user;
+  }
+
+  private createToken(user: User) {
+    const { id, email } = user;
+
+    const token = this.jwtService.sign({ email }, {
+      expiresIn: this.EXPIRES_IN,
+      subject: String(id),
+      issuer: this.ISSUER,
+      audience: this.AUDIENCE
+
+    });
+
+    return token;
+  }
+
+  checkToken(token: string) {
+    const data = this.jwtService.verify(token, {
+      audience: this.AUDIENCE,
+      issuer: this.ISSUER
+    });
+
+    return data;
   }
 }

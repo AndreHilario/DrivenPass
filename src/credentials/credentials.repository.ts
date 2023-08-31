@@ -1,6 +1,7 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateCredentialDto } from "./dto/create-credential.dto";
+import { User } from "@prisma/client";
 
 @Injectable()
 export class CredentialsRepository {
@@ -22,8 +23,12 @@ export class CredentialsRepository {
         }
     }
 
-    async findAllCredentials() {
-        return await this.prisma.credential.findMany();
+    async findAllCredentials(user: User) {
+        return await this.prisma.credential.findMany({
+            where: {
+                userId: user.id
+            }
+        });
     }
 
     async findCredentialById(id: number) {
