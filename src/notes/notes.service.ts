@@ -23,7 +23,7 @@ export class NotesService {
       throw new ForbiddenException("You can't create this note!");
     }
     
-    const newNote = new Note(createNoteDto.title, createNoteDto.content, createNoteDto.userId);
+    const newNote = new Note(createNoteDto.title, createNoteDto.content, user.id);
     return this.notesRepository.createNote(newNote);
   }
 

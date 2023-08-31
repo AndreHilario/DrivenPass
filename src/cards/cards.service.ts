@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { CardsRepository } from './cards.repository';
 import { Card } from './entities/card.entity';
 import { CredentialsService } from '../credentials/credentials.service';
 import { UsersService } from 'src/users/users.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class CardsService {
@@ -14,10 +15,14 @@ export class CardsService {
       private readonly credentialService: CredentialsService
     ) { }
 
-  async create(createCardDto: CreateCardDto) {
-    const user = await this.usersService.getUserById(createCardDto.userId);
-    if (!user) {
-      throw new NotFoundException("User not found") //verfifcar questao do token e session, como faz essa validação daqui pra frente
+  async create(user: User, createCardDto: CreateCardDto) {
+    const findUser = await this.usersService.getUserById(createCardDto.userId);
+    if (!findUser) {
+      throw new NotFoundException("User not found");
+    }
+
+    if (createCardDto.userId !== user.id) {
+      throw new ForbiddenException("You can't create this card!");
     }
 
     const encryptedSecurityCode = await this.credentialService.encryptPassword(createCardDto.securityCode);
@@ -33,14 +38,14 @@ export class CardsService {
         encryptedPin,
         createCardDto.isVirtual,
         createCardDto.type,
-        createCardDto.userId
+        user.id
       );
 
     return this.cardsRepository.createCard(newCard);
   }
 
-  async findAll() {
-    const cards = await this.cardsRepository.findAllCards();
+  async findAll(user: User) {
+    const cards = await this.cardsRepository.findAllCards(user);
 
     const decryptedCards = await Promise.all(cards.map(async c => {
       const decryptedSecurityCode = await this.credentialService.decryptPassword(c.securityCode);
@@ -51,26 +56,26 @@ export class CardsService {
     return decryptedCards;
   }
 
-  async findOne(id: number) {
-    const card = await this.cardsErrors(id);
+  async findOne(user: User, id: number) {
+    const card = await this.cardsErrors(user, id);
     return card;
   }
 
-  async remove(id: number) {
-    await this.cardsErrors(id);
+  async remove(user: User, id: number) {
+    await this.cardsErrors(user, id);
     return this.cardsRepository.deleteCard(id);
   }
 
-  private async cardsErrors(id: number) {
+  private async cardsErrors(user: User, id: number) {
     const card = await this.cardsRepository.findCardById(id);
 
     if (!card) {
       throw new NotFoundException("Card not found!");
     }
 
-    /*  if (card  && card.userId !== ver o id do user atual, pela session com token e etc ) {
-       throw new ForbiddenException("This card doesn't belong to you!");
-     } */
+    if (card && card.userId !== user.id) {
+      throw new ForbiddenException("This card doesn't belong to you!");
+    }
 
     return card;
   }

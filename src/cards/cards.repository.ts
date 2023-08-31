@@ -1,6 +1,7 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCardDto } from "./dto/create-card.dto";
+import { User } from "@prisma/client";
 
 @Injectable()
 export class CardsRepository {
@@ -26,8 +27,12 @@ export class CardsRepository {
         }
     }
 
-    async findAllCards() {
-        return await this.prisma.card.findMany();
+    async findAllCards(user: User) {
+        return await this.prisma.card.findMany({
+            where: {
+                userId: user.id
+            }
+        });
     }
 
     async findCardById(id: number) {
