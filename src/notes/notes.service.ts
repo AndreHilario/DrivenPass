@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { CreateNoteDto } from './dto/create-note.dto';
 import { NotesRepository } from './notes.repository';
 import { Note } from './entities/note.entity';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { User } from '@prisma/client';
 
 @Injectable()

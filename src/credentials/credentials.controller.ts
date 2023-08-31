@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { CredentialsService } from './credentials.service';
 import { CreateCredentialDto } from './dto/create-credential.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { User } from 'src/decorators/user.decorator';
+import { AuthGuard } from '../guards/auth.guard';
+import { User } from '../decorators/user.decorator';
 import { User as UserPrisma } from '@prisma/client';
 
 @UseGuards(AuthGuard)

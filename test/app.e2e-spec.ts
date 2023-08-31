@@ -1,24 +1,35 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
+import request from 'supertest';
 import { AppModule } from './../src/app.module';
+import { PrismaService } from "../src/prisma/prisma.service";
 
-describe('AppController (e2e)', () => {
+describe('AppController e2e - tests', () => {
   let app: INestApplication;
+  let prisma: PrismaService = new PrismaService();
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue(prisma)
+      .compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe())
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  afterEach(async () => {
+    await app.close();
+    await prisma.$disconnect();
+  });
+
+  it('GET /health', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .get('/health')
+      .expect(HttpStatus.OK)
+      .expect("I'm okay!");
   });
 });

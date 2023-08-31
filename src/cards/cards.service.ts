@@ -3,7 +3,7 @@ import { CreateCardDto } from './dto/create-card.dto';
 import { CardsRepository } from './cards.repository';
 import { Card } from './entities/card.entity';
 import { CredentialsService } from '../credentials/credentials.service';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { User } from '@prisma/client';
 
 @Injectable()

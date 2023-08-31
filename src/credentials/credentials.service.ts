@@ -4,7 +4,7 @@ import { CredentialsRepository } from './credentials.repository';
 import { Credential } from './entities/credential.entity';
 import Cryptr from "cryptr";
 import { User } from '@prisma/client';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class CredentialsService {
