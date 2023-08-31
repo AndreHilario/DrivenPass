@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { CardsRepository } from './cards.repository';
-import { UsersRepository } from '../users/users.repository';
 import { Card } from './entities/card.entity';
 import { CredentialsService } from '../credentials/credentials.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class CardsService {
   constructor
     (
       private readonly cardsRepository: CardsRepository,
-      private readonly usersRepository: UsersRepository,
+      private readonly usersService: UsersService,
       private readonly credentialService: CredentialsService
     ) { }
 
   async create(createCardDto: CreateCardDto) {
-    const user = await this.usersRepository.findUserById(createCardDto.userId);
+    const user = await this.usersService.getUserById(createCardDto.userId);
     if (!user) {
       throw new NotFoundException("User not found") //verfifcar questao do token e session, como faz essa validação daqui pra frente
     }

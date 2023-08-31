@@ -1,6 +1,7 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateNoteDto } from "./dto/create-note.dto";
+import { User } from "@prisma/client";
 
 @Injectable()
 export class NotesRepository {
@@ -20,8 +21,12 @@ export class NotesRepository {
         }
     }
 
-    async findAllNotes() {
-        return await this.prisma.secureNote.findMany();
+    async findAllNotes(user: User) {
+        return await this.prisma.secureNote.findMany({
+            where: {
+                userId: user.id
+            }
+        });
     }
 
     async findNoteById(id: number) {
