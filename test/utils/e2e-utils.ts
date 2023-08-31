@@ -1,4 +1,6 @@
 import { PrismaService } from "../../src/prisma/prisma.service";
+import * as faker from 'faker';
+import * as bcrypt from "bcrypt";
 
 export class E2EUtils {
     static async cleanDb(prisma: PrismaService) {
@@ -7,5 +9,13 @@ export class E2EUtils {
         await prisma.credential.deleteMany();
         await prisma.session.deleteMany();
         await prisma.user.deleteMany();
+    }
+
+    static buildUserFaker() {
+        const hashPassword = bcrypt.hashSync(faker.internet.password(), 10);
+        return {
+            email: faker.internet.email(),
+            password: hashPassword
+        }
     }
 }

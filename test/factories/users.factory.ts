@@ -1,4 +1,5 @@
 import { PrismaService } from "../../src/prisma/prisma.service";
+import * as bcrypt from "bcrypt";
 
 export class UsersFactory {
     private email: string;
@@ -24,7 +25,11 @@ export class UsersFactory {
     }
 
     async persist() {
-        const user = this.build();
+        const hashedPassword = bcrypt.hashSync(this.password, 10); // Hash the password
+        const user = {
+            email: this.email,
+            password: hashedPassword
+        };
         return await this.prisma.user.create({
             data: user
         });

@@ -32,9 +32,10 @@ export class UsersService {
 
   async login(email: string, password: string) {
     const user = await this.usersRepository.findUserByEmail(email);
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!user) throw new UnauthorizedException("Email or password invalid!");
 
-    if (!user || !passwordMatch) throw new UnauthorizedException("Email or password invalid!");
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) throw new UnauthorizedException("Email or password invalid!");
 
     const token = this.createToken(user);
 
