@@ -66,6 +66,10 @@ export class CardsService {
     return this.cardsRepository.deleteCard(id);
   }
 
+  async deleteAllByUserId(id: number) {
+    return this.cardsRepository.deleteAll(id);
+  }
+
   private async cardsErrors(user: User, id: number) {
     const card = await this.cardsRepository.findCardById(id);
 

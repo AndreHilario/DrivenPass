@@ -22,7 +22,7 @@ export class NotesService {
     if (createNoteDto.userId !== user.id) {
       throw new ForbiddenException("You can't create this note!");
     }
-    
+
     const newNote = new Note(createNoteDto.title, createNoteDto.content, user.id);
     return this.notesRepository.createNote(newNote);
   }
@@ -39,6 +39,10 @@ export class NotesService {
   async remove(user: User, id: number) {
     await this.noteErrors(user, id);
     return this.notesRepository.deleteNote(id);
+  }
+
+  async deleteAllByUserId(id: number) {
+    return this.notesRepository.deleteAll(id);
   }
 
   private async noteErrors(user: User, id: number) {

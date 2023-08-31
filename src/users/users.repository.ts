@@ -39,4 +39,20 @@ export class UsersRepository {
             },
         });
     }
+
+    async deleteUser(id: number) {
+        return await this.prisma.user.delete({
+            where: {
+                id
+            }
+        });
+    }
+
+    async deleteSession(id: number) {
+        return await this.prisma.session.deleteMany({
+            where: {
+                userId: id
+            }
+        });
+    }
 }

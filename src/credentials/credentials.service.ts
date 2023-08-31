@@ -21,7 +21,7 @@ export class CredentialsService {
       throw new NotFoundException("User not found!");
     }
 
-    if(createCredentialDto.userId !== user.id) {
+    if (createCredentialDto.userId !== user.id) {
       throw new ForbiddenException("You can't create this credential!")
     }
 
@@ -58,6 +58,10 @@ export class CredentialsService {
   async remove(id: number, user: User) {
     await this.credentialErrors(id, user);
     return this.credentialsRepository.deleteCredentialById(id);
+  }
+
+  async deleteAllByUserId(id: number) {
+    return this.credentialsRepository.deleteAll(id);
   }
 
   private async credentialErrors(id: number, user: User) {

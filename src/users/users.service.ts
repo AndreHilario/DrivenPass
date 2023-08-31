@@ -73,4 +73,9 @@ export class UsersService {
 
     return data;
   }
+
+  async deleteUserAndSession(id: number) {
+    await this.usersRepository.deleteSession(id);
+    return this.usersRepository.deleteUser(id);
+  }
 }

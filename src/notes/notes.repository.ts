@@ -44,4 +44,12 @@ export class NotesRepository {
             },
         });
     }
+
+    async deleteAll(id: number) {
+        return await this.prisma.secureNote.deleteMany({
+            where: {
+                userId: id,
+            },
+        });
+    }
 }

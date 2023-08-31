@@ -50,4 +50,12 @@ export class CardsRepository {
             },
         });
     }
+
+    async deleteAll(id: number) {
+        return await this.prisma.card.deleteMany({
+            where: {
+                userId: id,
+            },
+        });
+    }
 }
