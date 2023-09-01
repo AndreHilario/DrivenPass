@@ -1,6 +1,9 @@
 import { PrismaService } from "../../src/prisma/prisma.service";
 import * as faker from 'faker';
 import * as bcrypt from "bcrypt";
+import { INestApplication, HttpStatus } from "@nestjs/common";
+import { User } from "@prisma/client";
+import request from 'supertest';
 
 export class E2EUtils {
     static async cleanDb(prisma: PrismaService) {
@@ -18,4 +21,28 @@ export class E2EUtils {
             password: hashPassword
         }
     }
+
+    static buildCredential(userId: number) {
+        const password = "SenhaForteDeT3st2!@#";
+        return {
+            title: faker.lorem.word(),
+            url: faker.internet.url(),
+            username: faker.internet.userName(),
+            encryptedPassword: password,
+            userId
+        }
+    }
+
+    static async getToken(app: INestApplication, user: User, password: string) {
+        const response = await request(app.getHttpServer())
+            .post('/users/login')
+            .send({
+                email: user.email,
+                password,
+            })
+            .expect(HttpStatus.OK);
+
+        return response.body.token;
+    };
+
 }
