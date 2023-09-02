@@ -1,11 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator"
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateSessionDto {
-    @IsEmail()
-    @IsNotEmpty()
-    email: string
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
-    @IsNotEmpty()
-    @IsString()
-    password: string
+  @IsNotEmpty()
+  @IsString()
+  password: string;
 }

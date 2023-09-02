@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseIntPipe,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { AuthGuard } from '../guards/auth.guard';
@@ -8,7 +19,7 @@ import { User as UserPrisma } from '@prisma/client';
 @UseGuards(AuthGuard)
 @Controller('cards')
 export class CardsController {
-  constructor(private readonly cardsService: CardsService) { }
+  constructor(private readonly cardsService: CardsService) {}
 
   @Post()
   create(@Body() createCardDto: CreateCardDto, @User() user: UserPrisma) {

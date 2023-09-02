@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { CardsRepository } from './cards.repository';
 import { Card } from './entities/card.entity';
@@ -8,38 +12,40 @@ import { User } from '@prisma/client';
 
 @Injectable()
 export class CardsService {
-  constructor
-    (
-      private readonly cardsRepository: CardsRepository,
-      private readonly usersService: UsersService,
-      private readonly credentialService: CredentialsService
-    ) { }
+  constructor(
+    private readonly cardsRepository: CardsRepository,
+    private readonly usersService: UsersService,
+    private readonly credentialService: CredentialsService,
+  ) {}
 
   async create(user: User, createCardDto: CreateCardDto) {
     const findUser = await this.usersService.getUserById(createCardDto.userId);
     if (!findUser) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found');
     }
 
     if (createCardDto.userId !== user.id) {
       throw new ForbiddenException("You can't create this card!");
     }
 
-    const encryptedSecurityCode = await this.credentialService.encryptPassword(createCardDto.securityCode);
-    const encryptedPin = await this.credentialService.encryptPassword(createCardDto.encryptedPin);
+    const encryptedSecurityCode = await this.credentialService.encryptPassword(
+      createCardDto.securityCode,
+    );
+    const encryptedPin = await this.credentialService.encryptPassword(
+      createCardDto.encryptedPin,
+    );
 
-    const newCard = new Card
-      (
-        createCardDto.title,
-        createCardDto.cardNumber.toString(),
-        createCardDto.printedName,
-        encryptedSecurityCode,
-        new Date(createCardDto.expirationDate),
-        encryptedPin,
-        createCardDto.isVirtual,
-        createCardDto.type,
-        user.id
-      );
+    const newCard = new Card(
+      createCardDto.title,
+      createCardDto.cardNumber.toString(),
+      createCardDto.printedName,
+      encryptedSecurityCode,
+      new Date(createCardDto.expirationDate),
+      encryptedPin,
+      createCardDto.isVirtual,
+      createCardDto.type,
+      user.id,
+    );
 
     return this.cardsRepository.createCard(newCard);
   }
@@ -47,11 +53,20 @@ export class CardsService {
   async findAll(user: User) {
     const cards = await this.cardsRepository.findAllCards(user);
 
-    const decryptedCards = await Promise.all(cards.map(async c => {
-      const decryptedSecurityCode = await this.credentialService.decryptPassword(c.securityCode);
-      const decryptedPin = await this.credentialService.decryptPassword(c.encryptedPin);
-      return { ...c, securityCode: decryptedSecurityCode, encryptedPin: decryptedPin };
-    }));
+    const decryptedCards = await Promise.all(
+      cards.map(async (c) => {
+        const decryptedSecurityCode =
+          await this.credentialService.decryptPassword(c.securityCode);
+        const decryptedPin = await this.credentialService.decryptPassword(
+          c.encryptedPin,
+        );
+        return {
+          ...c,
+          securityCode: decryptedSecurityCode,
+          encryptedPin: decryptedPin,
+        };
+      }),
+    );
 
     return decryptedCards;
   }
@@ -74,7 +89,7 @@ export class CardsService {
     const card = await this.cardsRepository.findCardById(id);
 
     if (!card) {
-      throw new NotFoundException("Card not found!");
+      throw new NotFoundException('Card not found!');
     }
 
     if (card && card.userId !== user.id) {

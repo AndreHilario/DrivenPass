@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { PrismaService } from "../src/prisma/prisma.service";
+import { PrismaService } from '../src/prisma/prisma.service';
 
 describe('AppController e2e - tests', () => {
   let app: INestApplication;
-  let prisma: PrismaService = new PrismaService();
+  const prisma: PrismaService = new PrismaService();
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,7 +17,7 @@ describe('AppController e2e - tests', () => {
       .compile();
 
     app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
   });
 

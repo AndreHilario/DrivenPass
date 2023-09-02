@@ -1,4 +1,11 @@
-import { Controller, Post, Body, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { EraseService } from './erase.service';
 import { CreateEraseDto } from './dto/create-erase.dto';
 import { AuthGuard } from '../guards/auth.guard';
@@ -8,7 +15,7 @@ import { User as UserPrisma } from '@prisma/client';
 @UseGuards(AuthGuard)
 @Controller('erase')
 export class EraseController {
-  constructor(private readonly eraseService: EraseService) { }
+  constructor(private readonly eraseService: EraseService) {}
 
   @Post()
   @HttpCode(HttpStatus.NO_CONTENT)

@@ -9,6 +9,6 @@ import { UsersModule } from '../users/users.module';
   imports: [PrismaModule, UsersModule],
   controllers: [NotesController],
   providers: [NotesService, NotesRepository],
-  exports: [NotesService]
+  exports: [NotesService],
 })
-export class NotesModule { }
+export class NotesModule {}

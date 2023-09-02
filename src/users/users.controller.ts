@@ -5,7 +5,7 @@ import { CreateSessionDto } from './dto/create-session.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('sign-up')
   signup(@Body() createUserDto: CreateUserDto) {
@@ -15,6 +15,9 @@ export class UsersController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() createSessionDto: CreateSessionDto) {
-    return this.usersService.login(createSessionDto.email, createSessionDto.password);
+    return this.usersService.login(
+      createSessionDto.email,
+      createSessionDto.password,
+    );
   }
 }
