@@ -19,8 +19,8 @@ export class E2EUtils {
         return {
             email: faker.internet.email(),
             password: hashPassword
-        }
-    }
+        };
+    };
 
     static buildCredential(userId: number) {
         const password = "SenhaForteDeT3st2!@#";
@@ -30,8 +30,17 @@ export class E2EUtils {
             username: faker.internet.userName(),
             encryptedPassword: password,
             userId
-        }
-    }
+        };
+    };
+
+    static buildNote(userId: number) {
+        const uniqueTitle = faker.random.alphaNumeric(10);
+        return {
+            title: uniqueTitle,
+            content: faker.lorem.words(6),
+            userId
+        };
+    };
 
     static async getToken(app: INestApplication, user: User, password: string) {
         const response = await request(app.getHttpServer())
