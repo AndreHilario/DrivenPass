@@ -1,9 +1,10 @@
-import { PrismaService } from "../../src/prisma/prisma.service";
-import * as faker from 'faker';
-import * as bcrypt from "bcrypt";
-import { INestApplication, HttpStatus } from "@nestjs/common";
+import { HttpStatus, INestApplication } from "@nestjs/common";
 import { User } from "@prisma/client";
+import * as bcrypt from "bcrypt";
+import * as faker from 'faker';
 import request from 'supertest';
+import { CreateCardDto } from "../../src/cards/dto/create-card.dto";
+import { PrismaService } from "../../src/prisma/prisma.service";
 
 export class E2EUtils {
     static async cleanDb(prisma: PrismaService) {
@@ -41,6 +42,22 @@ export class E2EUtils {
             userId
         };
     };
+
+    static buildCard(userId: number): CreateCardDto {
+        const card: CreateCardDto = new CreateCardDto();
+
+        card.title = faker.lorem.words();
+        card.cardNumber = faker.datatype.number({ min: 100000000000000, max: 999999999999999 }).toString();
+        card.printedName = faker.internet.userName();
+        card.securityCode = faker.datatype.number({ min: 100, max: 9999 }).toString();
+        card.expirationDate = faker.date.future();
+        card.encryptedPin = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+        card.isVirtual = faker.datatype.boolean();
+        card.type = "CREDIT";
+        card.userId = userId;
+
+        return card;
+    }
 
     static async getToken(app: INestApplication, user: User, password: string) {
         const response = await request(app.getHttpServer())
