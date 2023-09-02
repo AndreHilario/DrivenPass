@@ -6,7 +6,8 @@ export class CreateNoteDto {
   @IsString()
   @ApiProperty({
     example: 'Choose a title',
-    description: 'Title of the note. Please choose a unique title for your note.',
+    description:
+      'Title of the note. Please choose a unique title for your note.',
   })
   title: string;
 

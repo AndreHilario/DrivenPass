@@ -5,11 +5,11 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('app')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get('health')
-  @ApiOperation({ summary: "Checks APIs health" })
-  @ApiResponse({ status: HttpStatus.OK, description: "Everything is okay." })
+  @ApiOperation({ summary: 'Checks APIs health' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Everything is okay.' })
   getHello(): string {
     return this.appService.getHealth();
   }

@@ -28,7 +28,7 @@ import {
 @UseGuards(AuthGuard)
 @Controller('cards')
 export class CardsController {
-  constructor(private readonly cardsService: CardsService) { }
+  constructor(private readonly cardsService: CardsService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new card' })
@@ -59,7 +59,8 @@ export class CardsController {
   @ApiOperation({ summary: 'Get a specific card by userID' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Get an object with the specific card that belongs to the current user.',
+    description:
+      'Get an object with the specific card that belongs to the current user.',
   })
   findOne(@Param('id', ParseIntPipe) id: number, @User() user: UserPrisma) {
     return this.cardsService.findOne(user, id);
@@ -81,4 +82,3 @@ export class CardsController {
     return this.cardsService.remove(user, id);
   }
 }
-

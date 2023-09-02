@@ -20,8 +20,8 @@ export class CreateUserDto {
   })
   @ApiProperty({
     example: 's3nh@f0rTe!',
-    description: 'Password for sign-up. Must be at least 10 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 symbol, and 1 number.',
+    description:
+      'Password for sign-up. Must be at least 10 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 symbol, and 1 number.',
   })
   password: string;
 }
-

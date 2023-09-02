@@ -16,7 +16,8 @@ export class CreateCardDto {
   @IsString()
   @ApiProperty({
     example: 'My Credit Card',
-    description: 'A title or name for the card (e.g., "My Credit Card"). Must be unique!',
+    description:
+      'A title or name for the card (e.g., "My Credit Card"). Must be unique!',
   })
   title: string;
 

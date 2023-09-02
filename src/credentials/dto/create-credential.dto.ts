@@ -12,7 +12,8 @@ export class CreateCredentialDto {
   @IsString()
   @ApiProperty({
     example: 'Website Login',
-    description: 'Title or name for the credential (e.g., "Website Login"). Must be unique!',
+    description:
+      'Title or name for the credential (e.g., "Website Login"). Must be unique!',
   })
   title: string;
 
@@ -20,7 +21,8 @@ export class CreateCredentialDto {
   @IsUrl()
   @ApiProperty({
     example: 'https://www.example.com',
-    description: 'URL associated with the credential (e.g., "https://www.example.com").',
+    description:
+      'URL associated with the credential (e.g., "https://www.example.com").',
   })
   url: string;
 
@@ -42,7 +44,8 @@ export class CreateCredentialDto {
   })
   @ApiProperty({
     example: 'P@ssw0rd',
-    description: 'Strong and secure password for the credential. Must be at least 6 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special symbol.',
+    description:
+      'Strong and secure password for the credential. Must be at least 6 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special symbol.',
   })
   encryptedPassword: string;
 
@@ -54,4 +57,3 @@ export class CreateCredentialDto {
   })
   userId: number;
 }
-

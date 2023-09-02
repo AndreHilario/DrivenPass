@@ -28,7 +28,7 @@ import {
 @UseGuards(AuthGuard)
 @Controller('credentials')
 export class CredentialsController {
-  constructor(private readonly credentialsService: CredentialsService) { }
+  constructor(private readonly credentialsService: CredentialsService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new credential' })
@@ -62,7 +62,8 @@ export class CredentialsController {
   @ApiOperation({ summary: 'Get a specific credential by userID' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Get an object with the specific credential that belongs to the current user.',
+    description:
+      'Get an object with the specific credential that belongs to the current user.',
   })
   findOne(@Param('id', ParseIntPipe) id: number, @User() user: UserPrisma) {
     return this.credentialsService.findOne(id, user);
@@ -77,11 +78,11 @@ export class CredentialsController {
   @ApiOperation({ summary: 'Delete a specific credential by userID' })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
-    description: 'Delete the specific credential that belongs to the current user.',
+    description:
+      'Delete the specific credential that belongs to the current user.',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseIntPipe) id: number, @User() user: UserPrisma) {
     return this.credentialsService.remove(id, user);
   }
 }
-
