@@ -1,14 +1,14 @@
 # DrivenPass
 _An easy and safe way to save your private information. Safely store your credentials, notes, and cards, so you never forget your information and can access it quickly and clearly whenever you need. All this, just with a master password_. 
-<div>
-  <img src="./assets/sign-up.png" />
-  <img src="./assets/login.png" />
-  <img src="./assets/CredentialCreated.png" />
-  <img src="./assets/GetCredentials.png" />
-  <img src="./assets/card.png" />
-  <img src="./assets/notes.png" />
-  <img src="./assets/erase.png" />
-</ div>
+
+<img src="./assets/sign-up.png" />
+<img src="./assets/login.png" />
+<img src="./assets/CredentialCreated.png" />
+<img src="./assets/GetCredentials.png" />
+<img src="./assets/card.png" />
+<img src="./assets/notes.png" />
+<img src="./assets/erase.png" />
+
 Try it out now in back-end at https://drivenpass-api.onrender.com
 
 ## About this Project
@@ -75,14 +75,24 @@ The following badges are the tools and technologies used in the construction of 
 
 - [![Swagger](https://img.shields.io/badge/Swagger-API%20Documentation-yellow)](https://swagger.io/)
 
-## How to run
+## How to run for development
+
 1. Clone this repository
+2. Install all dependencies
 
 ```bash
-$ npm install
+$ npm i
 ```
 
-### Running the app
+3. Create a PostgreSQL database with whatever name you want
+4. Configure the `.env` file using the `.env.example` file (see "Running application locally or inside docker section" for details)
+5. Run all prisma migrations
+
+```bash
+$ npm run prisma:prod
+```
+
+6. Run the back-end in a development environment:
 
 ```bash
 # development
@@ -95,7 +105,17 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-### Test
+## How to run tests
+
+1. Follow the steps in the last section
+2. Configure the `.env.test` file using the `.env.example` file (see "Running application locally or inside docker" section for details)
+3. Run all prisma tests migrations:
+
+```bash
+$ npm run test:prisma
+```
+
+4. Run test:
 
 ```bash
 # unit tests
