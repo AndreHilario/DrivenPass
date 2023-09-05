@@ -73,7 +73,12 @@ export class CardsService {
 
   async findOne(user: User, id: number) {
     const card = await this.cardsErrors(user, id);
-    return card;
+
+    return {
+      ...card, 
+      securityCode: this.credentialService.decryptPassword(card.securityCode),
+      encryptedPin: this.credentialService.decryptPassword(card.encryptedPin),
+    };
   }
 
   async remove(user: User, id: number) {

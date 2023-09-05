@@ -1,38 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# DrivenPass
+_An easy and safe way to save your private information. Safely store your credentials, notes, and cards, so you never forget your information and can access it quickly and clearly whenever you need. All this, just with a master password_. 
+<div>
+  <img src="./assets/sign-up.png" />
+  <img src="./assets/login.png" />
+  <img src="./assets/CredentialCreated.png" />
+  <img src="./assets/GetCredentials.png" />
+  <img src="./assets/card.png" />
+  <img src="./assets/notes.png" />
+  <img src="./assets/erase.png" />
+</ div>
+Try it out now in back-end at https://drivenpass-api.onrender.com
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## About this Project
+DrivenPass is a robust REST API designed to serve as your ultimate password manager. With DrivenPass, you gain the ability to securely create and access all the information you need through a single master password. 
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This powerful tool allows you to manage credentials for specific websites, create freeform notes, and store card information with ease. The standout feature? All your data, including passwords, is encrypted, ensuring maximum security and user-centric decryption.
 
-## Description
+- **Health** (`/health`) 🔓
+  - Route to check the application's status.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Users** (`/users`) 🔓
+  - Account Creation:
+    - Users can create accounts by providing a valid email and a secure password.
+  - Account Access:
+    - Users can log in using their email and password.
+    - After successful login, they receive a JWT token for authentication in all future requests.
+    
+- **Credentials** (`/credentials`) 🔒
+  - Credential Creation:
+    - Users can store login information for websites and services.
+    - Credentials include a URL, a username, and a password.
+  - Credential Retrieval:
+    - Users can list all their credentials or retrieve a specific one by ID.
+  - Credential Deletion:
+    - Users can delete a credential by ID.
 
-## Installation
+- **Secure Notes** (`/notes`) 🔒
+  - Secure Note Creation:
+    - Users can create secure notes with a title and content.
+  - Secure Note Retrieval:
+    - Users can list all their notes or retrieve a specific one by ID.
+  - Secure Note Deletion:
+    - Users can delete a note by ID.
+
+- **Cards** (`/cards`) 🔒
+  - Card Creation:
+    - Users can create secure cards with a title and content.
+  - Card Retrieval:
+    - Users can list all their cards or retrieve a specific one by ID.
+  - Card Deletion:
+    - Users can delete a card by ID.
+
+- **Erase** (`/erase`) 🔒
+  - Erases all information belonging to the user and then the record itself.
+
+## Technologies
+The following badges are the tools and technologies used in the construction of the project: 
+
+- [![NestJS](https://img.shields.io/badge/NestJS-Progressive-red)](https://nestjs.com/)
+
+- [![TypeScript](https://img.shields.io/badge/TypeScript-Programming%20Language-blue)](https://www.typescriptlang.org/)
+
+- [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Open--Source%20DB-blue)](https://www.postgresql.org/)
+
+- [![Prisma](https://img.shields.io/badge/Prisma-Database%20ORM-brightgreen)](https://www.prisma.io/)
+
+- [![Supertest](https://img.shields.io/badge/Supertest-Testing%20Library-orange)](https://github.com/visionmedia/supertest)
+
+- [![bcrypt](https://img.shields.io/badge/bcrypt-Password%20Hashing-pink)](https://www.npmjs.com/package/bcrypt)
+
+- [![cryptr](https://img.shields.io/badge/cryptr-Encryption%20Library-pink)](https://www.npmjs.com/package/cryptr)
+
+- [![JWT](https://img.shields.io/badge/JWT-JSON%20Web%20Tokens-yellow)](https://jwt.io/)
+
+- [![Swagger](https://img.shields.io/badge/Swagger-API%20Documentation-yellow)](https://swagger.io/)
+
+## How to run
+1. Clone this repository
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Running the app
 
 ```bash
 # development
@@ -45,7 +95,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Test
 
 ```bash
 # unit tests
