@@ -76,8 +76,8 @@ export class CardsService {
 
     return {
       ...card, 
-      securityCode: this.credentialService.decryptPassword(card.securityCode),
-      encryptedPin: this.credentialService.decryptPassword(card.encryptedPin),
+      securityCode: await this.credentialService.decryptPassword(card.securityCode),
+      encryptedPin: await this.credentialService.decryptPassword(card.encryptedPin),
     };
   }
 
