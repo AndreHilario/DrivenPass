@@ -16,10 +16,10 @@ DrivenPass is a robust REST API designed to serve as your ultimate password mana
 
 This powerful tool allows you to manage credentials for specific websites, create freeform notes, and store card information with ease. The standout feature? All your data, including passwords, is encrypted, ensuring maximum security and user-centric decryption.
 
-- **Health** (`/health`) 🔓
+- **Health** (`/health`) 
   - Route to check the application's status.
 
-- **Users** (`/users`) 🔓
+- **Users** (`/users`) 
   - Account Creation:
     - Users can create accounts by providing a valid email and a secure password.
   - Account Access:
@@ -29,7 +29,6 @@ This powerful tool allows you to manage credentials for specific websites, creat
 - **Credentials** (`/credentials`) 🔒
   - Credential Creation:
     - Users can store login information for websites and services.
-    - Credentials include a URL, a username, and a password.
   - Credential Retrieval:
     - Users can list all their credentials or retrieve a specific one by ID.
   - Credential Deletion:
@@ -37,7 +36,7 @@ This powerful tool allows you to manage credentials for specific websites, creat
 
 - **Secure Notes** (`/notes`) 🔒
   - Secure Note Creation:
-    - Users can create secure notes with a title and content.
+    - Users can create secure notes.
   - Secure Note Retrieval:
     - Users can list all their notes or retrieve a specific one by ID.
   - Secure Note Deletion:
@@ -45,7 +44,7 @@ This powerful tool allows you to manage credentials for specific websites, creat
 
 - **Cards** (`/cards`) 🔒
   - Card Creation:
-    - Users can create secure cards with a title and content.
+    - Users can create secure cards.
   - Card Retrieval:
     - Users can list all their cards or retrieve a specific one by ID.
   - Card Deletion:
@@ -53,6 +52,13 @@ This powerful tool allows you to manage credentials for specific websites, creat
 
 - **Erase** (`/erase`) 🔒
   - Erases all information belonging to the user and then the record itself.
+
+## Why
+This project has been a tremendous source of motivation for me due to its comprehensive nature. It encompasses a fully-fledged API structure built in Nest.js, a highly relevant and powerful technology. This endeavor has afforded me a profound understanding of this technology and the intricate art of crafting a robust REST API.
+
+What truly sets this project apart are its well-crafted protected routes and the intricacies of the user registration process. Notably, it goes beyond the basics by featuring a rich array of endpoints and intricate business rules that add depth and complexity to the application.
+
+In summary, this project has provided me with a learning experience, enabling me to delve deep into Nest.js, grasp the nuances of securing routes, and navigate the complexities of user registration and business logic in the context of an API.
 
 ## Technologies
 The following badges are the tools and technologies used in the construction of the project: 
